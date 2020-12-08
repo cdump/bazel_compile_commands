@@ -25,10 +25,10 @@ protobuf_deps()
 
 http_archive(
     name = "bazel_compile_commands",
-    sha256 = "FIXME",
-    strip_prefix = "bazel_compile_commands-FIXME",
+    sha256 = "9d4a18f6793c905851bff632355456f29272d6fb7178de43d346cdc9320ac7db",
+    strip_prefix = "bazel_compile_commands-0.1.0",
     urls = [
-        "https://github.com/cdump/bazel_compile_commands/archive/0855dc506d270205d990a1a5135052d812fd4ebc.tar.gz",
+        "https://github.com/cdump/bazel_compile_commands/archive/0.1.0.zip",
     ],
 
     # bazel_compile_commands uses '@com_github_tencent_rapidjson' name from rapidjson and '@com_google_protobuf' for protobuf
