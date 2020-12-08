@@ -1,0 +1,6 @@
+.clangd
+bazel-bin
+bazel-example
+bazel-out
+bazel-testlogs
+compile_commands.json

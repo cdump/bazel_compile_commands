@@ -1,0 +1,40 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "rapidjson",
+    build_file = "@//:rapidjson-BUILD.bazel",
+    sha256 = "926cb949eb0fdb6154c1104985aee0bf0a6eac38f0b90da05eaf5f079f320672",
+    strip_prefix = "rapidjson-ce81bc9edfe773667a7a4454ba81dac72ed4364c",
+    urls = [
+        "https://github.com/Tencent/rapidjson/archive/ce81bc9edfe773667a7a4454ba81dac72ed4364c.tar.gz",
+    ],
+)
+
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "9b4ee22c250fe31b16f1a24d61467e40780a3fbb9b91c3b65be2a376ed913a1a",
+    strip_prefix = "protobuf-3.13.0",
+    urls = [
+        "https://github.com/protocolbuffers/protobuf/archive/v3.13.0.tar.gz",
+    ],
+)
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
+
+http_archive(
+    name = "bazel_compile_commands",
+    sha256 = "FIXME",
+    strip_prefix = "bazel_compile_commands-FIXME",
+    urls = [
+        "https://github.com/cdump/bazel_compile_commands/archive/0855dc506d270205d990a1a5135052d812fd4ebc.tar.gz",
+    ],
+
+    # bazel_compile_commands uses '@com_github_tencent_rapidjson' name from rapidjson and '@com_google_protobuf' for protobuf
+    # In our WORKSPACE file we connect rapidjson by '@rapidjson' name, so we need repo_remapping
+    # Don't need '@com_google_protobuf' here, because our and '@bazel_compile_commands' names are the same
+    repo_mapping = {
+        "@com_github_tencent_rapidjson": "@rapidjson",
+    },
+)

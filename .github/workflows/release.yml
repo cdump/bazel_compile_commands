@@ -1,0 +1,31 @@
+name: release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # need tags to generate release notes
+
+    - name: Generate Release Notes
+      run: |
+        echo '## Changes since previous release:' > changelog.md
+        git log --oneline $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- [%h](https://github.com/cdump/bazel_compile_commands/commit/%H) %s" >> changelog.md
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          body_path: changelog.md
